@@ -53,6 +53,61 @@ Develop an **AI-powered predictive system** that:
 
 ---
 
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.8+
+- pip (Python package manager)
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/Darshan-aiml/SmartLoad-AI.git
+cd SmartLoad-AI
+```
+
+2. **Create a virtual environment (optional but recommended)**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+### Running the Dashboard
+
+Launch the interactive Streamlit dashboard:
+```bash
+streamlit run app.py
+```
+
+The dashboard will open in your default web browser at `http://localhost:8501`
+
+### Features of the Dashboard
+
+- 📊 **Overview**: View key metrics and dataset statistics
+- 📈 **Data Exploration**: Interactive time-series plots, correlation heatmaps, and sub-metering analysis
+- 🤖 **Model Predictions**: Compare Linear Regression and Random Forest model performance
+- 🔍 **Feature Analysis**: Examine feature importance and distributions
+
+### Running the Jupyter Notebooks
+
+To explore the development notebooks:
+```bash
+jupyter lab
+```
+
+Then navigate to the `notebooks/` directory to access:
+- `01_data_exploration.ipynb` - Data analysis and visualization
+- `02_data_preprocessing.ipynb` - Data cleaning and feature engineering
+- `03_baseline_model.ipynb` - Model training and evaluation
+
+---
+
 ## 🌍 Impact
 
 - ♻️ Promotes **energy-efficient living**.  
