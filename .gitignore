@@ -9,3 +9,6 @@ venv/
 # Ignore macOS and large local data
 .DS_Store
 data/household_power_consumption.txt
+*.zip
+*.joblib
+models/*.joblib

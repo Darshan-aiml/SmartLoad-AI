@@ -12,7 +12,9 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 import os
+import joblib
 
 # Page configuration
 st.set_page_config(
@@ -63,8 +65,26 @@ def load_data():
 
 # Model training function with caching
 @st.cache_resource
+def load_models():
+    """Load pre-trained models or train if not found"""
+    models_dir = 'models'
+    try:
+        lr = joblib.load(os.path.join(models_dir, 'linear_regression.joblib'))
+        rf = joblib.load(os.path.join(models_dir, 'random_forest.joblib'))
+        scaler = joblib.load(os.path.join(models_dir, 'scaler.joblib'))
+        return lr, rf, scaler
+    except Exception as e:
+        st.warning(f"Could not load pre-trained models: {e}. Training on the fly...")
+        return None
+
+@st.cache_resource
 def train_models(X_train, y_train):
     """Train and cache the baseline models"""
+    # Check if models can be loaded first
+    models = load_models()
+    if models is not None:
+        return models
+
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     
@@ -204,12 +224,15 @@ if data is not None:
         df['hour'] = df.index.hour
         df['dayofweek'] = df.index.dayofweek
         df['month'] = df.index.month
+        df['dayofyear'] = df.index.dayofyear
+        df['quarter'] = df.index.quarter
         
         target = 'Global_active_power'
         df = df.dropna(subset=[target])
         
         # Feature selection
-        X = df[['hour', 'dayofweek', 'month']].copy()
+        features = ['hour', 'dayofweek', 'month', 'dayofyear', 'quarter']
+        X = df[features].copy()
         num_cols = df.select_dtypes(include=[np.number]).columns.tolist()
         if target in num_cols:
             num_cols.remove(target)
@@ -303,12 +326,15 @@ if data is not None:
         df['hour'] = df.index.hour
         df['dayofweek'] = df.index.dayofweek
         df['month'] = df.index.month
+        df['dayofyear'] = df.index.dayofyear
+        df['quarter'] = df.index.quarter
         
         target = 'Global_active_power'
         df = df.dropna(subset=[target])
         
         # Feature selection
-        X = df[['hour', 'dayofweek', 'month']].copy()
+        features = ['hour', 'dayofweek', 'month', 'dayofyear', 'quarter']
+        X = df[features].copy()
         num_cols = df.select_dtypes(include=[np.number]).columns.tolist()
         if target in num_cols:
             num_cols.remove(target)
